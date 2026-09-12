@@ -14,10 +14,10 @@ potential future ideas:
 """
 
 # Create argparse fields
-PARSER = argparse.ArgumentParser(description = 'Evaluate a mathematical expression.')
-PARSER.add_argument('-e', '--expression', help = 'The expression to evaluate.')
+PARSER = argparse.ArgumentParser(description = 'Evaluate mathematical expressions.')
+PARSER.add_argument('-e', '--expression', help = 'The expression to evaluate.', metavar = '<expression>')
+PARSER.add_argument('-r', '--round', help = 'How many decimal places to round output to (defaults to 3 and can be negative).', default = 3, metavar = '<places>')
 PARSER.add_argument('-d', '--debug', action = 'store_const', const = 'true', help = 'Flag that enables debug mode.')
-PARSER.add_argument('-r', '--round', help = 'How many decimal places to round output to (defaults to 3 and can be negative).', default = 3)
 PARSER.add_argument('--useradians', '--radians', action = 'store_const', const = 'true', help = 'Flag that causes trig functions to accept input in radians instead of degrees.')
 ARGS = PARSER.parse_args()
 
