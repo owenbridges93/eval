@@ -5,23 +5,25 @@ import math
 """
 potential future ideas: 
 - expand new function parsing to unary operators to avoid need for UNARY_CONCAT_OTHER
-- refactor by integrating oop into algorithms 
+- integrate oop into algorithms 
 - clean up code
-- add option to use radians in trig functions
 - add functions that accept more than one argument
 - make debug message indentation more accurate
 - fix modular functionality
+- account for cases such as '3!!' or '4!!!'
 """
 
 # Create argparse fields
 PARSER = argparse.ArgumentParser(description = 'Evaluate a mathematical expression.')
 PARSER.add_argument('-e', '--expression', help = 'The expression to evaluate.')
-PARSER.add_argument('-d', '--debug', action = 'store_const', const = 'true', help = 'Whether or not debug mode should be turned on (true/false).')
+PARSER.add_argument('-d', '--debug', action = 'store_const', const = 'true', help = 'Flag that enables debug mode.')
 PARSER.add_argument('-r', '--round', help = 'How many decimal places to round output to (defaults to 3 and can be negative).', default = 3)
+PARSER.add_argument('--useradians', '--radians', action = 'store_const', const = 'true', help = 'Flag that causes trig functions to accept input in radians instead of degrees.')
 ARGS = PARSER.parse_args()
 
 # Initialize instance options
 DEBUG = True if ARGS.debug else False
+TRIG_FUNCTIONS_INPUT_CORRECTION = Decimal(1) if ARGS.useradians else Decimal(math.pi)/180
 ROUND_OUTPUT_TO = int(ARGS.round)
 
 # Define basic operators and their operations
@@ -55,9 +57,9 @@ NEGATIVE_OPERATIONS = {symbol + '-': lambda a, b, symbol=symbol: POSITIVE_OPERAT
 
 # Define some functions and their outputs
 FUNCTIONS = { # implement min max 
-    'sin' : lambda a: Decimal(math.sin(a*Decimal(math.pi)/180)),
-    'cos' : lambda a: Decimal(math.cos(a*Decimal(math.pi)/180)),
-    'tan' : lambda a: Decimal(math.tan(a*Decimal(math.pi)/180)),
+    'sin' : lambda a: Decimal(math.sin(a*TRIG_FUNCTIONS_INPUT_CORRECTION)),
+    'cos' : lambda a: Decimal(math.cos(a*TRIG_FUNCTIONS_INPUT_CORRECTION)),
+    'tan' : lambda a: Decimal(math.tan(a*TRIG_FUNCTIONS_INPUT_CORRECTION)),
     'sqrt' : lambda a: Decimal(math.sqrt(a))
 }
 
